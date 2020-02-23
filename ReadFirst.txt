@@ -1,0 +1,226 @@
+********************************************************************************
+** Documentation for EuNumber, by James Cook
+********************************************************************************
+
+EuNumber was designed to be useful.
+
+It can calculate numbers with accuracy, however, the last few digits might be
+incorrect, so always carry things out numbers to more digits than what you need.
+
+If accuracy is what you need, and you don't want to use rounding, then use an 
+"odd" radix.  Say you want a radix of "10", use "11" instead.
+
+EuNumber can calculate numbers to thousands of decimal places.  The best idea is
+to use a large radix, say 1000.
+
+On the other hand, EuNumber is useful for small numbers, say 3 as maxLength, and
+2 as radix.
+
+A MyEuNumber data type is composed of four (4) main parts:
+
+1. An array of digits with length (actual length of the array)
+2. An exponent
+3. A suggested maxLength, or number of significant digits of base radix, only 
+used in rounding.
+4. A radix, radix can be odd
+
+For the impatient, you can use the "Eun" functions.
+
+The main "Eun" functions are as follows:
+
+1. EunAdd
+2. EunNegate
+3. EunSubtract
+4. EunMult
+5. EunMultInv
+6. EunDivide
+7. EunConvert
+8. EunCompare
+9. EunReverse
+10. EunFracPart
+11. EunIntPart
+12. EunRoundSig
+13. EunRoundToInt
+
+First, make a MyEuNumber data type, using a supplied function.
+In some languages you will also have to free it when you are done with it.
+
+They all return a new MyEuNumber.
+
+These functions are pretty straight forward, until we get to "7. EunConvert"
+
+3. In "EunSubtract", the second (2nd) argument is passed to EunNegate, then 
+the two numbers are added.
+
+7. In "EunConvert" you will have to supply a new radix, and then a new 
+maxLength.
+
+8. In "EunCompare", the two MyEuNumbers are compared, and -1, 0, or 1 is 
+returned.
+   0 for equal
+   1 for greater than (first argument is greater than second argument)
+ (-1) for less than (first argument is less than second argument)
+
+9. In "EunReverse", it was designed for those who wish to see the little endian 
+version of the big endian internal value.
+
+10. In "EunFracPart", it returns the fractional part of the MyEuNumber.
+
+11. In "EunIntPart", it returns the integer part of the MyEuNumber.
+
+12. In "EunRoundSig", this is an IMPORTANT function for those wanting ACCURACY.
+After using a standard library "Eun" function, you should call this to round it 
+to the accuracy desired.  Say you want "100" significant digits: First do the 
+calculation with a few more significant digits than desired, say "110".  Then, 
+pass the result to "EunRoundSig" with "100" as the second argument.  Then, 
+change the maxLength back to "110" and do more calculations, repeating the 
+process.
+
+13. In "EunRoundToInt", MyEuNumber has a feature to allow for integers, and 
+allow for all calculations to round to nearest integer (see rounding below).
+"EunRoundToInt" will take a MyEuNumber, and round to nearest integer.
+
+Rounding:
+
+1. ROUND_INF
+2. ROUND_ZERO
+3. ROUND_POS_INF or ROUND_UP
+4. ROUND_NEG_INF or ROUND_DOWN
+
+SEE NOTE BELOW FOR THESE ROUNDING MODES:
+
+5. ROUND_PLUS_ONE
+6. ROUND_MINUS_ONE
+7. ROUND_ONE_INF
+8. ROUND_TO_NEAREST_OPTION == false (0), or true (1)
+
+The default rounding method is "ROUND_INF" or round away from zero.
+
+You can use the "SetRound" function (on some platforms) to set the rounding
+method.
+
+1. ROUND_INF rounds away from zero.
+2. ROUND_ZERO rounds towards zero.
+3. ROUND_UP rounds up, or towards positive infinity (ROUND_POS_INF)
+4. ROUND_DOWN rounds down, or towards negative infinity (ROUND_NEG_INF)
+
+NOTE: These other rounding methods, below, are "special use" modes and should 
+NOT be used in most applications:
+
+5. ROUND_PLUS_ONE will always round up on the last digit, even if it is 
+infinitesimally small.
+
+6. ROUND_MINUS_ONE will always round down on the last digit, even if it is 
+infinitesimally small.
+
+7. ROUND_ONE_INF wlil always round away from zero on the last digit, even if 
+it is infinitesimally small.
+
+8. ROUND_TO_NEAREST_OPTION is a feature that will always round to nearest 
+integer using one of the supplied rounding methods. Its value is true (1) or 
+false (0).
+
+Type conversion functions:
+
+1. ToString
+2. ToAtom
+3. ToEun
+
+1. ToString converts a MyEuNumber to a string
+2. ToAtom converts a MyEuNumber to a floating point value
+3. ToEun converts a string to a MyEuNumber data type
+
+Added functions:
+
+1. EunNthRoot
+2. EunSquareRoot
+3. EunCubeRoot
+4. EunQuadraticEquation
+
+1. EunNthRoot takes an integer data type and a MyEuNumber.  For example:
+  two (2) would be the square root of a MyEuNumber.
+  three (3) would be the cube root of a MyEuNumber.
+  four (4) would be the fourth root of a MyEuNumber.
+  five (5) would be the fith root of a MyEuNumber, and so forth.
+All even roots return two (2) results, one positive, one negative.
+Sometimes those answers are the imaginary part of a complex number, and the 
+imaginary flag will be set.
+
+2. EunSquareRoot, performs the square root of a MyEuNumber.
+
+3. EunCubeRoot, performs the square root of a MyEuNumber.
+
+4. EunQuadraticEquation, performs the quadratic equation.
+It returns two (2) results.
+
+
+Complex functions:
+
+Complex function take the Complex data type which is composed of two (2)
+MyEuNumbers, the first one is the real part and the second one is the 
+imaginary part (having the imaginary flag either set or implied).
+
+All these functions take Complex data types as arguments, and return the 
+Complex data type, or an array with two (2) Complex data types.
+
+1. ComplexAdd
+2. ComplexNegate
+3. ComplexSubtract
+4. ComplexMult
+5. ComplexMultInv
+6. ComplexDivide
+7. ComplexSqrt
+8. ComplexQuadraticEquation
+9. NegateImag
+
+1. ComplexAdd, adds two (2) complex MyEuNumbers.
+
+2. ComplexNegate, negates a complex MyEuNumber.
+
+3. ComplexSubtract, subtracts two (2) complex MyEuNumbers.
+
+4. ComplexMult, multiplies two (2) complex MyEuNumbers.
+
+5. ComplexMultInv, performs multiplicative inverse on a complex MyEuNumber.
+
+6. ComplexDivide, divides two (2) complex MyEuNumbers.
+
+7. ComplexSqrt, performs square root on a complex MyEuNumber, returning a data 
+type containing two (2) complex MyEuNumbers.
+
+8. ComplexQuadraticEquation, performs the quadratic equation, taking three (3)
+complex MyEuNumbers and returning a data type containing two (2) complex 
+MyEuNumbers.
+
+9. NegateImag, is used to negate the imaginary part of a complex MyEuNumber.
+
+NOTE:
+
+All imaginary parts of numbers, in mathematics, are usually both plus and minus,
+because they are the square root of negative one (-1), and all square roots are
+both plus (+) and minus (-).  So, in order to account for that, you have to 
+calculate both ways, and keep track of both results, every time you encounter 
+an "even" root (like a square root) in your calculations.  That means there are
+multiple answers, each just as valid.
+
+You can use EunNegate for real numbers (MyEuNumber), or NegateImag to negate 
+just the imaginary part of a "complex MyEuNumber".  Every time you use an "even"
+root (like a square root), you need to do this.  EunNthRoot does this for you 
+for real numbers, but in complex numbers, you will have to use NegateImag to 
+account for more answers to your equations.
+
+As a mathematician, you should know how many results your equations should 
+produce.  Then, use MyEuNumber to calculate them.
+
+
+Trig functions, Exponentation, and Logarithms:
+
+-- To be continued.
+
+
+Internal functions, explained:
+
+Non-Eun function.
+
+-- To be continued.
+
