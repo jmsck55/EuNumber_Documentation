@@ -125,10 +125,12 @@ Type conversion functions:
 1. ToString
 2. ToAtom
 3. ToEun
+4. StringToEun
 
 1. ToString converts a MyEuNumber to a string
 2. ToAtom converts a MyEuNumber to a floating point value
-3. ToEun converts a string to a MyEuNumber data type
+3. ToEun converts a floating point value to a MyEuNumber data type
+4. StringToEun converts a string to a MyEuNumber data type
 
 Added functions:
 
